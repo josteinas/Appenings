@@ -3,6 +3,7 @@ package com.lavalampe.appenings;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.http.HttpResponse;
@@ -65,26 +66,12 @@ public class LoginActivity extends Activity {
 		String username = usernameInput.getText().toString();
 		String password = passwordInput.getText().toString();
 		String serverUrl = getString(R.string.serverUrl);
-		HttpClient httpClient = new DefaultHttpClient();
-		HttpPost httpPost = new HttpPost(serverUrl);
-
-		try {
-			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-			nameValuePairs.add(new BasicNameValuePair("username", username));
-			nameValuePairs.add(new BasicNameValuePair("password", password));
-			httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-			
-			HttpResponse response = httpClient.execute(httpPost);
-			Log.d(LoginActivity.class.getSimpleName(), response.toString());
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClientProtocolException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
+		NameValuePair[] params = new NameValuePair[2];
+		params[0] = new BasicNameValuePair("username", username);
+		params[1] = new BasicNameValuePair("password", password);
+		
+		AsyncPost post = new AsyncPost(serverUrl);
+		post.execute(params);
 	}
 }
