@@ -2,6 +2,13 @@
 <resources>
 
     <string name="app_name">Appenings</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="loginHeaderLogo">loginHeaderLoge</string>
+    <string name="registerHeaderLogo">registerHeaderLogo</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="login">Sign in</string>
+    <string name="serverUrl">http://localhost:8088/DistributedAlarm</string>
+    
+    
 
 </resources>

@@ -23,7 +23,8 @@
                 <ImageView android:src="@drawable/ic_launcher" 
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dip"/>
+                            android:layout_marginLeft="10dip"
+                            android:contentDescription="@string/registerHeaderLogo"/>
                 <!-- Logo Ends -->
         </LinearLayout>
         <!--  Header Ends -->
@@ -51,7 +52,7 @@
           <TextView android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textColor="#372c24"
-                android:text="Full Name"/>
+                android:hint="Full Name"/>
           <EditText android:id="@+id/reg_fullname"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"

@@ -22,11 +22,12 @@
 
             <!-- Logo Start -->
 
-            <!-- <ImageView
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dip"
-                android:src="@drawable/logo" /> -->
+                android:src="@drawable/ic_launcher" 
+                android:contentDescription="@string/loginHeaderLogo"/>
             <!-- Logo Ends -->
         </LinearLayout>
         <!-- Header Ends -->
@@ -60,10 +61,12 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="Email"
+                android:text="@string/username"
                 android:textColor="#372c24" />
 
             <EditText
+                android:id="@+id/log_username"
+                android:hint="@string/username"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dip"
@@ -74,14 +77,15 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="Password"
+                android:text="@string/password"
                 android:textColor="#372c24" />
 
             <EditText
+                android:id="@+id/log_password"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dip"
-                android:password="true"
+                android:inputType="textPassword"
                 android:singleLine="true" />
             <!-- Login button -->
 
@@ -90,7 +94,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dip"
-                android:text="Login" />
+                android:text="@string/login" />
             <!-- Link to Registration Screen -->
 
             <TextView
