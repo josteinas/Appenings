@@ -65,7 +65,7 @@ public class LoginActivity extends Activity {
 	private void doLogin() {
 		String username = usernameInput.getText().toString();
 		String password = passwordInput.getText().toString();
-		String serverUrl = getString(R.string.serverUrl);
+		String serverUrl = getString(R.string.serverUrl) + "/ValidateUser";
 		
 		NameValuePair[] params = new NameValuePair[2];
 		params[0] = new BasicNameValuePair("username", username);
