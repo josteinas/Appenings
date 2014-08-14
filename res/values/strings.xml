@@ -7,7 +7,7 @@
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="login">Sign in</string>
-    <string name="serverUrl">http://10.0.0.108:8088/da</string>
+    <string name="serverUrl">http://10.0.0.108:8088/da/api</string>
     
     
 
