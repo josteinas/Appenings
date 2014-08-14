@@ -1,22 +1,19 @@
 package com.lavalampe.appenings;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.concurrent.ExecutionException;
 
+import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -56,13 +53,17 @@ public class LoginActivity extends Activity {
 		loginButton.setOnClickListener(new View.OnClickListener() {
 
 			public void onClick(View v) {
-				doLogin();
+				if(doLogin()) {
+					SharedPreferences pref = getApplicationContext().getSharedPreferences("SessionPref", 0);
+					Log.d("sessionID", pref.getString("SessionID", null));
+				}
+				
 			}
 
 		});
 	}
 
-	private void doLogin() {
+	private boolean doLogin() {
 		String username = usernameInput.getText().toString();
 		String password = passwordInput.getText().toString();
 		String serverUrl = getString(R.string.serverUrl) + "/ValidateUser";
@@ -72,6 +73,33 @@ public class LoginActivity extends Activity {
 		params[1] = new BasicNameValuePair("password", password);
 		
 		AsyncPost post = new AsyncPost(serverUrl);
-		post.execute(params);
+		
+		try {
+			HttpResponse response = post.execute(params).get();
+			JSONObject jsonResponse = Utils.httpResponseToJSON(response);
+			
+			try {
+				if(jsonResponse.getBoolean("success")) {
+					Header[] cookies = response.getHeaders("Cookie");
+					for (int i = 0; i < cookies.length; i++) {
+						Header cookie = cookies[i];
+						if(cookie.getName().equalsIgnoreCase("JSessionId")) {
+							SharedPreferences pref = getApplicationContext().getSharedPreferences("SessionPref", Context.MODE_PRIVATE);
+							Editor editor = pref.edit();
+							editor.putString("sessionID", cookie.getValue());
+							editor.commit();
+						}
+					}
+					return true;
+				}
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 }
