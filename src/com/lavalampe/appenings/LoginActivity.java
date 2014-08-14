@@ -1,10 +1,12 @@
 package com.lavalampe.appenings;
 
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
+import org.apache.http.cookie.Cookie;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,6 +25,7 @@ import android.widget.TextView;
 
 public class LoginActivity extends Activity {
 
+	private static final String TAG = LoginActivity.class.getSimpleName();
 	private TextView registerScreen;
 	private Button loginButton;
 	private EditText usernameInput, passwordInput;
@@ -55,7 +58,7 @@ public class LoginActivity extends Activity {
 			public void onClick(View v) {
 				if(doLogin()) {
 					SharedPreferences pref = getApplicationContext().getSharedPreferences("SessionPref", 0);
-					Log.d("sessionID", pref.getString("SessionID", null));
+					Log.d("sessionID", pref.getString("SessionID", "none"));
 				}
 				
 			}
@@ -75,22 +78,26 @@ public class LoginActivity extends Activity {
 		AsyncPost post = new AsyncPost(serverUrl);
 		
 		try {
-			HttpResponse response = post.execute(params).get();
+			PostResult result = post.execute(params).get();
+			HttpResponse response = result.response;
 			JSONObject jsonResponse = Utils.httpResponseToJSON(response);
 			
 			try {
 				if(jsonResponse.getBoolean("success")) {
-					Header[] cookies = response.getHeaders("Cookie");
-					for (int i = 0; i < cookies.length; i++) {
-						Header cookie = cookies[i];
+					List<Cookie> cookies = result.cookies;
+					boolean foundSession = false;
+					Log.d(TAG, String.format("Found %d cookies", cookies.size()));
+					for (Cookie cookie : cookies) {
+						Log.d(TAG, "found cookie: " + cookie.toString() + " with name: " + cookie.getName());
 						if(cookie.getName().equalsIgnoreCase("JSessionId")) {
 							SharedPreferences pref = getApplicationContext().getSharedPreferences("SessionPref", Context.MODE_PRIVATE);
 							Editor editor = pref.edit();
-							editor.putString("sessionID", cookie.getValue());
+							editor.putString("SessionID", cookie.getValue());
 							editor.commit();
+							foundSession = true;
 						}
 					}
-					return true;
+					return foundSession;
 				}
 			} catch (JSONException e) {
 				e.printStackTrace();

@@ -8,15 +8,15 @@ import java.util.List;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.cookie.Cookie;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.os.AsyncTask;
 import android.util.Log;
 
-public class AsyncPost extends AsyncTask<NameValuePair, Integer, HttpResponse> {
+public class AsyncPost extends AsyncTask<NameValuePair, Integer, PostResult> {
 	
 	private HttpPost httpPost;
 	
@@ -26,9 +26,9 @@ public class AsyncPost extends AsyncTask<NameValuePair, Integer, HttpResponse> {
 	}
 
 	@Override
-	protected HttpResponse doInBackground(NameValuePair... params) {
+	protected PostResult doInBackground(NameValuePair... params) {
 		
-		HttpClient httpClient = new DefaultHttpClient();
+		DefaultHttpClient httpClient = new DefaultHttpClient();
 
 		try {
 			List<NameValuePair> nameValuePairs = Arrays.asList(params);
@@ -36,7 +36,10 @@ public class AsyncPost extends AsyncTask<NameValuePair, Integer, HttpResponse> {
 			
 			HttpResponse response = httpClient.execute(httpPost);
 			Log.d(LoginActivity.class.getSimpleName(), response.toString());
-			return response;
+			
+			List<Cookie> cookies = httpClient.getCookieStore().getCookies();
+			
+			return new PostResult(response, cookies);
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
