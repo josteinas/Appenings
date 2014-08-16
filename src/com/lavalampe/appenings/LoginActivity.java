@@ -59,6 +59,9 @@ public class LoginActivity extends Activity {
 				if(doLogin()) {
 					SharedPreferences pref = getApplicationContext().getSharedPreferences("SessionPref", 0);
 					Log.d("sessionID", pref.getString("SessionID", "none"));
+					Intent i = new Intent(getApplicationContext(),
+							MainActivity.class);
+					startActivity(i);
 				}
 				
 			}
