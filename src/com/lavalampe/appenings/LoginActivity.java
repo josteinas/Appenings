@@ -3,7 +3,6 @@ package com.lavalampe.appenings;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.cookie.Cookie;
