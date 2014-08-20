@@ -11,6 +11,10 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.lavalampe.appenings.networking.AsyncPost;
+import com.lavalampe.appenings.networking.AsyncPostCallback;
+import com.lavalampe.appenings.networking.PostResult;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -54,41 +58,25 @@ public class LoginActivity extends Activity {
 
 		// Listening to register new account link
 		loginButton.setOnClickListener(new View.OnClickListener() {
-
 			public void onClick(View v) {
-				if(doLogin()) {
-					SharedPreferences pref = getApplicationContext().getSharedPreferences("SessionPref", 0);
-					Log.d("sessionID", pref.getString("SessionID", "none"));
-					Intent i = new Intent(getApplicationContext(),
-							MainActivity.class);
-					startActivity(i);
-				}
-				
+				Log.d(TAG, "Login button clicked");
+				doLogin();
 			}
 
 		});
 	}
+	
+	private class OnLoginResponse implements AsyncPostCallback{
 
-	private boolean doLogin() {
-		String username = usernameInput.getText().toString();
-		String password = passwordInput.getText().toString();
-		String serverUrl = getString(R.string.serverUrl) + "/ValidateUser";
-		
-		NameValuePair[] params = new NameValuePair[2];
-		params[0] = new BasicNameValuePair("username", username);
-		params[1] = new BasicNameValuePair("password", password);
-		
-		AsyncPost post = new AsyncPost(serverUrl);
-		
-		try {
-			PostResult result = post.execute(params).get();
+		@Override
+		public void onPostComplete(PostResult postResult) {
+			PostResult result = postResult;
 			HttpResponse response = result.response;
 			JSONObject jsonResponse = Utils.httpResponseToJSON(response);
-			
+			boolean foundSession = false;
 			try {
 				if(jsonResponse.getBoolean("success")) {
 					List<Cookie> cookies = result.cookies;
-					boolean foundSession = false;
 					Log.d(TAG, String.format("Found %d cookies", cookies.size()));
 					for (Cookie cookie : cookies) {
 						Log.d(TAG, "found cookie: " + cookie.toString() + " with name: " + cookie.getName());
@@ -99,17 +87,36 @@ public class LoginActivity extends Activity {
 							editor.commit();
 							foundSession = true;
 						}
-					}
-					return foundSession;
+					}				
 				}
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		} catch (ExecutionException e) {
-			e.printStackTrace();
+			if(foundSession){
+				SharedPreferences pref = getApplicationContext().getSharedPreferences("SessionPref", 0);
+				Log.d("sessionID", pref.getString("SessionID", "none"));
+				Intent i = new Intent(getApplicationContext(),
+						MainActivity.class);
+				startActivity(i);
+			}
 		}
-		return false;
+					
+				
+			
+		
+		
+	}
+
+	private void doLogin() {
+		String username = usernameInput.getText().toString();
+		String password = passwordInput.getText().toString();
+		String serverUrl = getString(R.string.serverUrl) + "/ValidateUser";
+		
+		NameValuePair[] params = new NameValuePair[2];
+		params[0] = new BasicNameValuePair("username", username);
+		params[1] = new BasicNameValuePair("password", password);
+		
+		AsyncPost post = new AsyncPost(serverUrl, new OnLoginResponse());
+		post.execute(params);
 	}
 }
