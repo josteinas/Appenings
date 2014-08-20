@@ -1,4 +1,4 @@
-package com.lavalampe.appenings;
+package com.lavalampe.appenings.networking;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -13,13 +13,23 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.cookie.Cookie;
 import org.apache.http.impl.client.DefaultHttpClient;
 
+import com.lavalampe.appenings.LoginActivity;
+
 import android.os.AsyncTask;
 import android.util.Log;
 
 public class AsyncPost extends AsyncTask<NameValuePair, Integer, PostResult> {
-	
+	private static final String TAG = AsyncPost.class.getSimpleName();
+
 	private HttpPost httpPost;
-	
+	private AsyncPostCallback callback;
+
+	public AsyncPost(String serverUrl, AsyncPostCallback callback) {
+		super();
+		httpPost = new HttpPost(serverUrl);
+		this.callback = callback;
+	}
+
 	public AsyncPost(String serverUrl) {
 		super();
 		httpPost = new HttpPost(serverUrl);
@@ -27,30 +37,39 @@ public class AsyncPost extends AsyncTask<NameValuePair, Integer, PostResult> {
 
 	@Override
 	protected PostResult doInBackground(NameValuePair... params) {
-		
+
 		DefaultHttpClient httpClient = new DefaultHttpClient();
 
 		try {
 			List<NameValuePair> nameValuePairs = Arrays.asList(params);
 			httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-			
+
 			HttpResponse response = httpClient.execute(httpPost);
 			Log.d(LoginActivity.class.getSimpleName(), response.toString());
-			
+
 			List<Cookie> cookies = httpClient.getCookieStore().getCookies();
-			
-			return new PostResult(response, cookies);
+			PostResult result = new PostResult(response, cookies);
+			return result;
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.e(TAG, e.getMessage());
 		} catch (ClientProtocolException e) {
-			// TODO Auto-generated catch block
+			Log.e(TAG, e.getMessage());
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			Log.e(TAG, e.getMessage());
 			e.printStackTrace();
 		}
 		return null;
 	}
+
+	@Override
+	protected void onPostExecute(PostResult result) {
+		// TODO Auto-generated method stub
+		super.onPostExecute(result);
+		if (callback != null)
+			callback.onPostComplete(result);
+	}
+	
+	
 
 }

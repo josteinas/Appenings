@@ -1,4 +1,4 @@
-package com.lavalampe.appenings;
+package com.lavalampe.appenings.networking;
 
 import java.util.List;
 
