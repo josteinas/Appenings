@@ -18,7 +18,7 @@
 
     </style>
 
-    <style name="nowCardStyle" parent="android:Widget.TextView">
+    <style name="nowCardStyle" parent="android:Widget.ListView">
         <item name="android:background">@drawable/search_bg_shadow</item>
         <item name="android:gravity">center</item>
         <item name="android:minHeight">200dp</item>

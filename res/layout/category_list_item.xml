@@ -8,5 +8,15 @@
         android:id="@+id/category_item_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/category_item_maptemp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <Button
+                android:id="@+id/btnFollow"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:text="@string/follow" />
 
 </LinearLayout>
