@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ListView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/fragment_category_list"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_category_list"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#e3e3e3"
+    android:background="#000000"
+    android:divider="@android:color/transparent"
+    android:dividerHeight="0.0sp"
     android:fillViewport="true"
     android:orientation="vertical" >
 

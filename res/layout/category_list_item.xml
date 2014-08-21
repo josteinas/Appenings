@@ -1,22 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/nowCardStyle"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" >
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/category_item_header"
+    <LinearLayout
+        style="@style/nowCardStyle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <TextView
-        android:id="@+id/category_item_maptemp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <Button
-                android:id="@+id/btnFollow"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dip"
-                android:text="@string/follow" />
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="0dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/category_item_shape"
+        android:orientation="vertical"
+        tools:ignore="UselessParent" >
+
+        <TextView
+            android:id="@+id/category_item_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:textColor="#FFFFFF" />
+
+        <View
+            android:id="@+id/separator1"
+            android:layout_width="fill_parent"
+            android:layout_height="0.2dp"
+            android:layout_gravity="top"
+            android:background="@android:color/darker_gray"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/category_item_maptemp"
+            android:layout_width="match_parent"
+            android:layout_height="125dp"
+            android:textColor="#FFFFFF" />
+
+        <Button
+            android:id="@+id/btnFollow"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginTop="10dip"
+            android:background="@android:color/darker_gray"
+            android:text="@string/follow"
+            android:textColor="#FFFFFF" />
+    </LinearLayout>
 
 </LinearLayout>

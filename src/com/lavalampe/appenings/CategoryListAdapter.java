@@ -29,7 +29,7 @@ public class CategoryListAdapter extends ArrayAdapter<Category> {
 		
 		if (convertView == null) {
 			LayoutInflater vi = (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			convertView = vi.inflate(R.layout.category_list_item, parent);
+			convertView = vi.inflate(R.layout.category_list_item, parent,false);
 			
 			holder = new ViewHolder();
 			holder.header = (TextView) convertView.findViewById(R.id.category_item_header);
@@ -45,7 +45,6 @@ public class CategoryListAdapter extends ArrayAdapter<Category> {
 		holder.map.setText("This will be a map");
 		holder.follow.setText("Following");
 		holder.follow.setSelected(true);
-		holder.follow.setBackgroundColor(Color.GREEN);
 		
 		return convertView;
 	}

@@ -9,13 +9,15 @@
     <string name="login">Sign in</string>
     <string name="serverUrl">http://10.0.2.2:8088/da/api</string>
     <string-array name="menu_items">
-        <item>Home</item>
+        <item>HomeHomeHomeHomeHomeHomeHomeHomeHomeHomeHomeHomeHomeHomeHomeHomeHomeHomeHomeHomeHomeHomeHome</item>
         <item>Jossi</item>
         <item>Is</item>
         <item>An</item>
         <item>ASS</item>
     </string-array>
     <string name="follow">Follow</string>
+    <string name="logo_text">Appenings</string>
+    <string name="new_user_text">Sign up for Appenings</string>
     
     
 
