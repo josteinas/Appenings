@@ -32,6 +32,7 @@ public class LoginActivity extends Activity {
 	private TextView registerScreen;
 	private Button loginButton;
 	private EditText usernameInput, passwordInput;
+	public static final String sessionPref = "SessionPref";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -80,9 +81,10 @@ public class LoginActivity extends Activity {
 					for (Cookie cookie : cookies) {
 						Log.d(TAG, "found cookie: " + cookie.toString() + " with name: " + cookie.getName());
 						if(cookie.getName().equalsIgnoreCase("JSessionId")) {
-							SharedPreferences pref = getApplicationContext().getSharedPreferences("SessionPref", Context.MODE_PRIVATE);
+							SharedPreferences pref = getApplicationContext().getSharedPreferences(LoginActivity.sessionPref, Context.MODE_PRIVATE);
 							Editor editor = pref.edit();
 							editor.putString("SessionID", cookie.getValue());
+							editor.putString("username", jsonResponse.getString("username"));
 							editor.commit();
 							foundSession = true;
 						}
@@ -94,6 +96,7 @@ public class LoginActivity extends Activity {
 			if(foundSession){
 				SharedPreferences pref = getApplicationContext().getSharedPreferences("SessionPref", 0);
 				Log.d("sessionID", pref.getString("SessionID", "none"));
+				Log.d("username", pref.getString("username", "none"));
 				Intent i = new Intent(getApplicationContext(),
 						MainActivity.class);
 				startActivity(i);
