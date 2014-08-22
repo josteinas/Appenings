@@ -41,6 +41,7 @@
             android:layout_marginBottom="10dp"
             android:layout_marginTop="5dp"
             android:inputType="textPassword"
+            android:hint="@string/password"
             android:singleLine="true" />
         <!-- Login button -->
 
@@ -53,7 +54,16 @@
             android:text="@string/login" />
         <!-- Link to Registration Screen -->
 
-
+		<TextView
+        android:id="@+id/forgot_password"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="@string/forgot_password"
+        android:textColor="#FFFFFF"
+        android:textSize="15sp" />
         <!-- Login Form Ends -->
 
     </LinearLayout>
