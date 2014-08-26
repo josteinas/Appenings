@@ -12,11 +12,14 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.cookie.Cookie;
 import org.apache.http.impl.client.DefaultHttpClient;
-
-import com.lavalampe.appenings.LoginActivity;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
 
 import android.os.AsyncTask;
 import android.util.Log;
+
+import com.lavalampe.appenings.LoginActivity;
 
 public class AsyncPost extends AsyncTask<NameValuePair, Integer, PostResult> {
 	private static final String TAG = AsyncPost.class.getSimpleName();
@@ -37,8 +40,13 @@ public class AsyncPost extends AsyncTask<NameValuePair, Integer, PostResult> {
 
 	@Override
 	protected PostResult doInBackground(NameValuePair... params) {
+		HttpParams httpParameters = new BasicHttpParams();
+		int timeoutConnection = 2000;
+		HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutConnection);
+		int timeoutSocket = 5000;
+		HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
 
-		DefaultHttpClient httpClient = new DefaultHttpClient();
+		DefaultHttpClient httpClient = new DefaultHttpClient(httpParameters);
 
 		try {
 			List<NameValuePair> nameValuePairs = Arrays.asList(params);
@@ -59,6 +67,7 @@ public class AsyncPost extends AsyncTask<NameValuePair, Integer, PostResult> {
 			Log.e(TAG, e.getMessage());
 			e.printStackTrace();
 		}
+		cancel(true);
 		return null;
 	}
 
@@ -69,6 +78,15 @@ public class AsyncPost extends AsyncTask<NameValuePair, Integer, PostResult> {
 		if (callback != null)
 			callback.onPostComplete(result);
 	}
+
+	@Override
+	protected void onCancelled() {
+		super.onCancelled();
+		if (callback != null)
+			callback.onError();
+	}
+	
+	
 	
 	
 

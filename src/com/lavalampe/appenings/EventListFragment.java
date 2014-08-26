@@ -80,10 +80,15 @@ public class EventListFragment extends ListFragment{
 					followedCategories.add(new Category(c.getString("name"), (float)c.getDouble("latitude"), (float)c.getDouble("longitude"), new User(creator.getString("username")), c.getBoolean("private")));
 				}
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 //			catListAdapter.notifyDataSetChanged();
+			
+		}
+
+		@Override
+		public void onError() {
+			//TODO handle error
 			
 		}
 		

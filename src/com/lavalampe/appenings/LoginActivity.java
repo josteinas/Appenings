@@ -25,6 +25,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class LoginActivity extends Activity {
 
@@ -105,6 +106,14 @@ public class LoginActivity extends Activity {
 						MainActivity.class);
 				startActivity(i);
 			}
+		}
+
+		@Override
+		public void onError() {
+			Context context = getApplicationContext();
+			CharSequence text = "An error occured when communicating with the server";
+			Toast.makeText(context, text, Toast.LENGTH_LONG).show();
+			
 		}
 
 	}

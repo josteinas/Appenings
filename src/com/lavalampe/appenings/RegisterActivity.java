@@ -8,12 +8,14 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.lavalampe.appenings.networking.AsyncPost;
 import com.lavalampe.appenings.networking.AsyncPostCallback;
@@ -119,6 +121,14 @@ public class RegisterActivity extends Activity {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			
+		}
+
+		@Override
+		public void onError() {
+			Context context = getApplicationContext();
+			CharSequence text = "An error occured when communicating with the server";
+			Toast.makeText(context, text, Toast.LENGTH_LONG).show();
 			
 		}
 		
